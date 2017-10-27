@@ -1,0 +1,74 @@
+﻿A. Hướng dẫn cài đặt Yocto Project
+
+I. Để sử dụng Yocto Project trên nền tảng Linux, ta cần chuẩn bị: 
+       1. Build Host: Linux distribution (Fedora, openSUSE, CentOS, Debian, hoặc Ubuntu) tối thiểu 50GB ổ cứng trống. 
+       2. Build Host Packages: các packages cần thiết cài đặt trên Build Host. 
+       3. Yocto Project: một phiên bản của Yocto Project. 
+II. Cụ thể các bước thực hiện:
+       1. Linux Distribution 
+              - Cài đặt một trong các phiên bản của Linux:
+                     + Fedora
+                     + openSUSE
+                     + CentOS
+                     + Debian
+                     + Ubuntu
+              - Cài đặt thêm một số package (nếu chưa có): 
+                     + Git phiên bản >= 1.8.3.1: 
+                                   ~$ sudo apt-get install git
+                     + tar phiên bản >=1.24: 
+                                   ~$ sudo apt-get install tar
+                     + Python phiên bản >= 2.7.3 (trừ Python 3.x):
+                                   ~$ sudo apt-get install python
+       2. Build Host Packages
+              - Ubuntu và Debian:  
+                            ~$ sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev xterm
+              - Fedora:
+                            ~$ sudo dnf install gawk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath ccache perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue perl-bignum socat findutils which SDL-devel xterm
+              - OpenSUSE: 
+                            ~$ sudo zypper install python gcc gcc-c++ git chrpath make wget python-xml diffstat makeinfo python-curses patch socat libSDL-devel xterm
+              - CentOS: 
+                            ~$ sudo yum install gawk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath socat perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue SDL-devel xterm
+
+       3. Yocto Project
+              - Tải phiên bản mới nhất của Yocto Project:
+                            ~$ cd ~/your_folder
+                            ~$ git clone git://git.yoctoproject.org/poky
+                            ~$ cd /poky
+                            ~$ git checkout -b krogoth origin/krogoth
+              - Khởi tạo môi trường OpenEmbedded bằng cách chạy file “oe-init-build-env” trong thư mục poky, ta sử dụng lệnh:
+                            ~$ source oe-init-build-env
+              - Để build một OS image, ví dụ “core-image-sato”, ta sử dụng lệnh:
+                            ~$ bitbake core-image-sato
+              Lưu ý: Lần build đầu tiên, quá trình build có thể kéo dài trong vài tiếng, tuỳ thuộc vào số lượng processors, cores, dung lượng RAM, tốc độ Internet, … Ở những lần build tiếp theo, quá trình sẽ nhanh hơn vì một phần quá trình đã được lưu lại.
+              - Khi quá trình build ở trên hoàn thành, ta có thể sử dụng QEMU để mô phỏng:
+                            ~$ runqemu qemux86
+
+
+B. Thêm meta-raspberrypi cho Yocto Project
+       1. Clone meta-raspberrypi:
+                     ~$ cd poky_path                     (poky_path ở đây là đường dẫn đến thư mục poky)
+                     ~$ git clone https://git.yoctoproject.org/git/meta-raspberrypi -b krogoth
+       
+       2. Thay đổi nội dung bblayers.conf và local.conf để build meta-raspberrypi:
+              - Mở file poky_path/build/conf/bblayers.conf bằng bất kì editor nào, thêm dòng sau vào phần cuối của BBLAYERS:  poky_path/meta-raspberrypi \ 
+              - Sau khi thay đổi bblayers.conf sẽ có dạng như sau:
+                     # POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf
+                     # changes incompatibly
+                     POKY_BBLAYERS_CONF_VERSION = "2"
+
+                     BBPATH = "${TOPDIR}"
+                     BBFILES ?= ""
+
+                     BBLAYERS ?= " \
+                            poky_path/meta \
+                            poky_path/meta-poky \
+                            poky_path/meta-yocto-bsp \
+                            poky_path/meta-raspberrypi \
+                     "
+              - Mở file poky_path/build/conf/local.conf, ở ngay bên trên dòng MACHINE ??= "qemux86", thêm dòng sau: MACHINE ?= "raspberrypi2"
+      
+       3.Build rootfs cho rpi2:
+                     ~$ bitbake rpi-basic-image
+	
+       Chú ý:  poky_path cần được thay đổi theo từng máy.
+
