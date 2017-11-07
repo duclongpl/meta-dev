@@ -16,13 +16,6 @@ CORE_BOOT_MINIMAL = " \
 	mingetty \
 	modutils-initscripts \
 "
-RFPF_IMAGE_PKGS = " \
-	iptables \
-	lxc \
-	swupdate \
-	zabbix \
-"
-
 DEPENDS = ""
 RDEPENDS = ""
 
