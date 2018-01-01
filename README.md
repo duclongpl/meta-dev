@@ -1,14 +1,18 @@
 # meta-dev
-http://git.yoctoproject.org/cgit.cgi/poky/ </br>
+ ~$ mkdir ~/working </br>
 
-mkdir yocto git clone https://git.yoctoproject.org/git/poky </br>
+ ~$ cd ~/working  </br>
 
-git clone https://github.com/Xilinx/meta-xilinx.git </br>
+ ~$ git clone https://github.com/duclongpl/meta-dev.git </br>
 
-cd poky git checkout yocto-2.3 -b dev </br>
+ ~$ cd ~/working/meta-dev </br>
+ 
+ ~$ git submodule update </br>
 
-source meta-dev/scripts/setup_meta-dev.sh dev-armv7 build </br>
+ ~$ source meta-dev/poky/oe-init-build-env build </br>
 
-nano ../meta/conf/sanity.conf </br>
+ ~$ cp ~/working/meta-dev/meta-image/conf/templates/* ~/working/build/conf/
+ 
+ ~$ bitbake rpi2-minimal-image
 
 https://b24-62kb2h.bitrix24.com/stream/ </br>
