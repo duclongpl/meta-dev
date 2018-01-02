@@ -17,6 +17,6 @@
 
  ~$ cp ~/working/meta-dev/meta-image/conf/templates/* ~/working/build/conf/
  
- ~$ bitbake rpi2-minimal-image
+ ~$ bitbake rpi-minimal-image
 
 https://b24-62kb2h.bitrix24.com/stream/ </br>
