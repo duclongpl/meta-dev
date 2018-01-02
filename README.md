@@ -7,7 +7,11 @@
 
  ~$ cd ~/working/meta-dev </br>
  
+  ~$ git submodule init </br>
+ 
  ~$ git submodule update </br>
+ 
+ ~$ cd ~/working
 
  ~$ source meta-dev/poky/oe-init-build-env build </br>
 
