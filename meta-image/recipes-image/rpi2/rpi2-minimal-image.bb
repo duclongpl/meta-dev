@@ -12,7 +12,7 @@ CORE_BOOT_MINIMAL = " \
         base-passwd \
         busybox \
         initscripts \
-	      mingetty \
+        mingetty \
         modutils-initscripts \
         packagegroup-core-boot \
 "
